@@ -1,16 +1,45 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
 import Login from './components/Login'
+import axios from 'axios'
+import { useState, useCallback, useEffect } from 'react'
+import Navbar from './components/Navbar'
+import AdminPanel from './components/AdminComponents/AdminPanel'
 
 
 const App = () => {
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [user, setUser] = useState({})
+
+  const loginStatus = useCallback(() => {
+    axios.get('http://localhost:3001/logged_in', {withCredentials: true})
+    .then(res => {
+      console.log(res)
+        if (res.data.logged_in) {
+            setLoggedIn(true)
+        } else {
+            setLoggedIn(false)
+        }
+    })
+    .catch(err => console.log(err))
+  }, [])
+
+  useEffect(()=>{
+      loginStatus()
+  }, [])
   
   return (
     <div className="App">
-      <BrowserRouter>
+    
+    <BrowserRouter>
+      <Navbar />
         <Routes>
-          <Route exact path='/' element={<Home/>}/>
-          <Route exact path='/login' element={<Login/>}/>
+          <Route exact path='/' element={<Home />} />
+          {/* <Route exact path='/aboutme' element={<AboutMe />} />
+          <Route exact path='/gallery' element={<Gallery />}/>
+          <Route exact path='/contact' element={<ContactForm />}/> */}
+          <Route exact path='/login' element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} />}/>
+          { loggedIn && <Route exact path='/admin' element={<AdminPanel />}/>}
         </Routes>
       </BrowserRouter>
     </div>

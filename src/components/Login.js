@@ -2,7 +2,7 @@ import axios from "axios"
 import { useReducer } from "react"
 import { useNavigate } from "react-router-dom"
 
-const Login = (props) => {
+const Login = ({user, setUser, loggedin, setLoggedIn}) => {
     const navigateTo = useNavigate()
     const [credentialsState, dispatchCredentials] = useReducer((state, action) => {
         switch (action.type) {
@@ -19,17 +19,29 @@ const Login = (props) => {
         dispatchCredentials({type: e.target.name, value: e.target.value})
     }
 
+    const handleLogin = data => {
+        setLoggedIn(true)
+        setUser(data.data.user)
+      }
+    
+      const handleLogout = () => {
+        setLoggedIn(false)
+        setUser({})
+      }
+
     const submitHandler = e => {
         e.preventDefault()
-        //* This is because on the backend it requires an object named "user"
-        const user = {...credentialsState}
+        
+        const user = {...credentialsState} //* This is because on the backend it requires an object named "user"
         axios.post('http://localhost:3001/login', {user}, {withCredentials: true})
             .then(res => {
                 console.log(res);
                 if (res.data.status === 200) {
-                    navigateTo("/")
+                    handleLogin(res)
+                    navigateTo("/admin")
                 } else {
-                    console.log("bad data retard")
+                    handleLogout()
+                    console.log("bad data")
                 }
             })
             .catch(err => console.log(err))
