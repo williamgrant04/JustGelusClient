@@ -19,10 +19,6 @@ const Login = ({loggedin, setLoggedIn, setAuth}) => {
         dispatchCredentials({type: e.target.name, value: e.target.value})
     }
 
-    const handleLogin = res => {
-        localStorage.setItem('_jgu_jwt', `${res.headers.authorization}`)
-    }
-
     const submitHandler = async e => {
         e.preventDefault()
         
@@ -30,11 +26,11 @@ const Login = ({loggedin, setLoggedIn, setAuth}) => {
         const response = await axios.post('http://localhost:3001/login', {user})
 
         if (response.status === 200) {
-            handleLogin(response)
+            localStorage.setItem('_jgu_jwt', `${response.headers.authorization}`)
             navigateTo("/admin")
         } else {
+            console.log("Incorrect credentials")
             navigateTo("/")
-            console.log("bad data")
         }
     }
 

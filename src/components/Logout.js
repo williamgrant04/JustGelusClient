@@ -1,12 +1,24 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router"
 
 const Logout = () => {
+    const navTo = useNavigate()
+    const [count, setCount] = useState(5) //* The number of seconds until the user is redirected
     
-    //* The number of seconds until the user is redirected
-    const [count, setCount] = useState(5)
+    useEffect(() => {
+        axios.delete('http://localhost:3001/logout')
+    }, [])
 
-    axios.delete('http://localhost:3001/logout').then(res=>console.log(res))
+    useEffect(() => {
+        setTimeout(()=> {
+            setCount(count-1)
+        }, 1000)
+
+        if (count === 0) {
+            navTo('/')
+        }
+    }, [count, navTo])
 
     return(
         <div>

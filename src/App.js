@@ -11,15 +11,15 @@ const App = () => {
     <div className="App">
         <BrowserRouter>
             <Navbar />
-                <Routes>
-                    <Route exact path='/' element={<Home />} />
-                    {/* <Route exact path='/aboutme' element={<AboutMe />} />
-                    <Route exact path='/gallery' element={<Gallery />}/>
-                    <Route exact path='/contact' element={<ContactForm />}/> */}
-                    <Route exact path='/login' element={<Login />}/>
-                    <Route exact path='/logout' element={<Logout />}/>
-                    <Route exact path='/admin/*' element={<AdminPanel />}/>
-                </Routes>
+            <Routes>
+                <Route exact path='/' element={<Home />} />
+                {/* <Route exact path='/aboutme' element={<AboutMe />} />
+                <Route exact path='/gallery' element={<Gallery />}/>
+                <Route exact path='/contact' element={<ContactForm />}/> */}
+                <Route exact path='/login' element={<Login />}/>
+                <Route exact path='/logout' element={<Logout />}/>
+                <Route exact path='/admin/*' element={<AdminPanel />}/>
+            </Routes>
         </BrowserRouter>
     </div>
   );

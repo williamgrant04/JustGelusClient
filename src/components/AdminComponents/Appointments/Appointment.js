@@ -24,7 +24,7 @@ const Appointment = (props) => {
             console.log(response)
         }
         fetchAppointment()
-    },[])
+    }, [params])
 
     return(
         <div>

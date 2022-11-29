@@ -22,7 +22,7 @@ const Service = (props) => {
             console.log(response)
         }
         fetchService()
-    }, [])
+    }, [params])
 
     return(
         <div>

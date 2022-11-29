@@ -22,7 +22,7 @@ const Client = (props) => {
             console.log(response)
         }
         fetchClient()
-    }, [])
+    }, [params])
 
     return(
         <div>
