@@ -33,7 +33,7 @@ const Clients = (props) => {
                         <p>Phone number: {client.phone_number}</p>
                         <p>Email: {client.email}</p>
 
-                        {/*//! This is a really bad way to do this but we need to pass this through a serializer to make the shit that comes out of the backend not fucking awful so it's just temporary. */}
+                        {/*//! This is a really bad way to do this but we need to pass this through a serializer to make the shit that comes out of the backend not awful so it's just temporary. */}
                         {/* {client.allergies.split('", "').map((allergy)=><p>Allergies: {allergy}</p>)}  */}
                         <p>Notes: {client.notes}</p>                        
                     </div>

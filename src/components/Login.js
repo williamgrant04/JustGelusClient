@@ -2,7 +2,7 @@ import axios from "axios"
 import { useReducer } from "react"
 import { useNavigate } from "react-router-dom"
 
-const Login = ({loggedin, setLoggedIn, setAuth}) => {
+const Login = () => {
     const navigateTo = useNavigate()
     const [credentialsState, dispatchCredentials] = useReducer((state, action) => {
         switch (action.type) {
