@@ -2,7 +2,7 @@ import axios from "axios"
 import { useReducer } from "react"
 import { useNavigate } from "react-router-dom"
 
-const Login = ({loggedin, setLoggedIn, setAuth}) => {
+const Login = () => {
     const navigateTo = useNavigate()
     const [credentialsState, dispatchCredentials] = useReducer((state, action) => {
         switch (action.type) {
@@ -19,39 +19,26 @@ const Login = ({loggedin, setLoggedIn, setAuth}) => {
         dispatchCredentials({type: e.target.name, value: e.target.value})
     }
 
-    const handleLogin = res => {
-        setLoggedIn(true)
-        localStorage.setItem('_jgu_jwt', `${res.headers.authorization}`)
-      }
-    
-      const handleLogout = () => {
-        setLoggedIn(false)
-      }
-
-    const submitHandler = e => {
+    const submitHandler = async e => {
         e.preventDefault()
         
         const user = {...credentialsState} //* This is because on the backend it requires an object named "user"
-        axios.post('http://localhost:3001/login', {user})
-            .then(res => {
-                // console.log(res);
-                if (res.status === 200) {
-                    handleLogin(res)
-                    navigateTo("/admin")
-                } else {
-                    handleLogout()
-                    navigateTo("/")
-                    console.log("bad data")
-                }
-            })
-            .catch(err => console.log(err))
+        const response = await axios.post('http://localhost:3001/login', {user})
+
+        if (response.status === 200) {
+            localStorage.setItem('_jgu_jwt', `${response.headers.authorization}`)
+            navigateTo("/admin")
+        } else {
+            console.log("Incorrect credentials")
+            navigateTo("/")
+        }
     }
 
     return(
         <form onSubmit={submitHandler}>
             <h1>Log in</h1>
             <input placeholder="Email" type="text" name="email" value={credentialsState.email} onChange={changeHandler}></input>
-            <input placeholder="Password" type="text" name="password" value={credentialsState.password} onChange={changeHandler}></input>
+            <input placeholder="Password" type="password" name="password" value={credentialsState.password} onChange={changeHandler}></input>
             <button placeholder="submit" type="submit">Log in</button>
         </form>
     )
